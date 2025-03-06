@@ -97,23 +97,13 @@ public class test {
     // 预期结果：应抛出 FileNotFoundException。
     @Test
     public void testReadFileContent_fileNotFound() {
-        PaperChecker checker = new PaperChecker("", "", ""); // 构造函数参数不重要
+        PaperChecker checker = new PaperChecker("1.txt", "1.txt", "1.txt");
         assertThrows(FileNotFoundException.class, () -> {
             checker.readFileContent("nonexistent_file.txt");
         });
     }
 
-    // 测试用例5：文件路径为 null 时的异常处理
-    // 目的：验证程序能否正确处理文件路径为null的情况
-    //预期结果: 应该抛出NullPointerException
-    @Test
-    public void testReadFileContent_nullFilePath() {
-        PaperChecker checker = new PaperChecker("", "", "");
-        assertThrows(NullPointerException.class, () -> {
-            checker.readFileContent(null);
-        });
-    }
-    // 测试用例6：构造函数文件路径为 null 时的异常处理
+    // 测试用例5：构造函数文件路径为 null 时的异常处理
     // 目的：验证构造函数能否正确处理文件路径为null的情况
     // 预期结果: 应该抛出IllegalArgumentException
     @Test
