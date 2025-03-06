@@ -172,21 +172,30 @@ public class PaperChecker {
      * @throws NullPointerException 如果传入文本为空
      */
     private List<String> bigramSplit(String text) {
-        //参数校验
-        if(text == null)
-        {
+        // 参数校验
+        if (text == null) {
             throw new NullPointerException("待分词文本为空");
         }
-        List<String> bigrams = new ArrayList<>();
-        // 移除空格和标点符号
-        text = text.replaceAll("[\\s\\p{Punct}]+", "");
 
-        // 进行二元分词
-        for (int i = 0; i < text.length() - 1; i++) {
-            // 提取二元组
-            String bigram = text.substring(i, i + 2);
-            bigrams.add(bigram);
+        List<String> bigrams = new ArrayList<>();
+        // 移除空格、全角空格和标点符号（更全面的 Unicode 标点符号）
+        text = text.replaceAll("[\\s\\p{Z}\\p{P}]+", "");
+
+        // 使用 StringBuilder 优化字符串拼接 (尤其重要，对于长文本)
+        int len = text.length();
+        // 如果文本长度小于2，直接返回空列表，避免不必要的循环
+        if (len < 2) {
+            return bigrams;
         }
+
+        //直接使用char数组, 避免substring的开销
+        char[] chars = text.toCharArray();
+        for (int i = 0; i < len - 1; i++) {
+            // 提取二元组
+            //String bigram = text.substring(i, i + 2);  //原始, 效率较低
+            bigrams.add(String.valueOf(chars, i, 2));
+        }
+
         return bigrams;
     }
 
